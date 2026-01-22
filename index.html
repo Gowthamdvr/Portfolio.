@@ -135,8 +135,8 @@
         }
 
         section {
-            padding: 6rem 2rem;
-            max-width: 1400px;
+            padding: 5rem 1.5rem;
+            max-width: 1300px;
             margin: 0 auto;
             transform-style: preserve-3d;
             transition: transform var(--transition-slow);
@@ -157,8 +157,12 @@
             transform-style: preserve-3d;
         }
 
-        html {
+        html,
+        body {
             scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
         }
 
         body {
@@ -732,7 +736,7 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             position: relative;
         }
 
@@ -1698,6 +1702,10 @@
         }
 
         @media (max-width: 768px) {
+            .nav-container {
+                padding: 0.8rem 1.2rem;
+            }
+
             .nav-links {
                 position: fixed;
                 top: 70px;
@@ -1757,11 +1765,33 @@
             }
 
             section {
-                padding: 4rem 1.5rem;
+                padding: 1.5rem 0.6rem;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            #about {
+                margin: 1rem auto;
+                border-radius: 20px;
             }
 
             #contact {
-                padding: 3rem 2rem;
+                padding: 2rem 1rem;
+            }
+
+            /* Certification Mobile Optimizations */
+            .cert-gallery-container {
+                padding: 2rem 0;
+                perspective: 1000px;
+            }
+
+            .cert-track {
+                gap: 1.5rem;
+            }
+
+            .cert-img-card {
+                width: 280px;
+                height: 200px;
             }
         }
 
@@ -1790,15 +1820,60 @@
 
             .hero-stats {
                 flex-direction: column;
-                gap: 1.5rem;
+                gap: 1.2rem;
             }
 
             section {
-                padding: 3rem 1rem;
+                padding: 1.2rem 0.5rem;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            footer {
+                margin-top: 2rem;
+                padding: 2.5rem 1rem 2rem;
+            }
+
+            /* Tighten Projects on Mobile */
+            .project-header {
+                min-height: 180px;
+                padding: 2rem 1.5rem;
+            }
+
+            .project-body {
+                padding: 1.5rem;
             }
 
             .projects-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .cert-gallery-container {
+                margin: 1rem 0;
+                padding: 0.5rem 0;
+                width: 100%;
+                left: 0;
+                position: relative;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .cert-img-card {
+                width: 200px;
+                height: 150px;
+            }
+
+            .cert-track {
+                gap: 1rem;
+            }
+
+            .section-title {
+                margin-bottom: 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
             }
         }
 
@@ -1843,6 +1918,11 @@
     <!-- Loading Screen -->
     <div class="loader" id="loader">
         <div class="spinner"></div>
+    </div>
+
+    <!-- 3D Background Container -->
+    <div id="bg-canvas"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none;">
     </div>
 
     <!-- Navbar -->
@@ -2834,35 +2914,38 @@
 
         // Add 3D Background Objects
         function create3DBackground() {
-            const body = document.body;
+            const container = document.getElementById('bg-canvas');
+            if (!container) return;
+
             // Create Orbs
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 6; i++) {
                 const orb = document.createElement('div');
                 orb.className = 'glass-orb floating-element';
                 orb.setAttribute('data-speed', Math.random() * 2 + 1);
-                orb.style.width = Math.random() * 300 + 200 + 'px';
-                orb.style.height = orb.style.width;
-                orb.style.left = Math.random() * 100 + 'vw';
-                orb.style.top = Math.random() * document.documentElement.scrollHeight + 'px';
-                body.appendChild(orb);
+                const size = Math.random() * 200 + 150;
+                orb.style.width = size + 'px';
+                orb.style.height = size + 'px';
+                orb.style.left = Math.random() * 80 + '%';
+                orb.style.top = Math.random() * 80 + '%';
+                container.appendChild(orb);
             }
             // Create Floating Cubes
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 10; i++) {
                 const cube = document.createElement('div');
                 cube.className = 'floating-cube floating-element';
                 cube.setAttribute('data-speed', Math.random() * 3 + 2);
-                cube.style.left = Math.random() * 100 + 'vw';
-                cube.style.top = Math.random() * document.documentElement.scrollHeight + 'px';
-                body.appendChild(cube);
+                cube.style.left = Math.random() * 90 + '%';
+                cube.style.top = Math.random() * 90 + '%';
+                container.appendChild(cube);
             }
             // Create Floating Spheres
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 8; i++) {
                 const sphere = document.createElement('div');
                 sphere.className = 'floating-sphere floating-element';
                 sphere.setAttribute('data-speed', Math.random() * 4 + 1.5);
-                sphere.style.left = Math.random() * 100 + 'vw';
-                sphere.style.top = Math.random() * document.documentElement.scrollHeight + 'px';
-                body.appendChild(sphere);
+                sphere.style.left = Math.random() * 90 + '%';
+                sphere.style.top = Math.random() * 90 + '%';
+                container.appendChild(sphere);
             }
         }
         create3DBackground();
